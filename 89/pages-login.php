@@ -56,7 +56,7 @@
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
 
-                  <form name="loginFormi" id="loginFormi" class="row g-3 needs-validation" novalidate>
+                  <form name="loginFormi" id="loginFormi" class="row g-3 needs-validation">
 
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
@@ -126,6 +126,8 @@ $(document).ready(function() {
             url: 'verify_login.php',
             data: formData,
             success: function(response) {
+                console.log(response.trim());
+                
                 // Si la réponse est succès (par exemple, l'utilisateur est authentifié)
                 if(response.trim() === 'success') {
                     window.location.href = 'enseign.php'; // Rediriger l'utilisateur vers la page appropriée
@@ -133,8 +135,9 @@ $(document).ready(function() {
                     // Afficher un message d'erreur
                     $('#error_message').text('Identifiants invalides. Veuillez réessayer.');
                 }
-            }
-        });
+            
+        }
+      });
     });
 });
 </script>

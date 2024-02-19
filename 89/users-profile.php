@@ -9,7 +9,7 @@ session_start();
 if(isset($_SESSION['username'])) {
     // L'utilisateur est connecté, rediriger ou afficher le contenu approprié
     $username = $_SESSION['username'];
-  $queryy = "SELECT firstnamefr, lastnamefr FROM enseignant WHERE username = '$username'";
+  $queryy = "SELECT firstnamefr, lastnamefr, tele, email, fac, dept FROM enseignant WHERE username = '$username'";
     $result = mysqli_query($connexion, $queryy);
 
     // Vérifier si la requête a réussi
@@ -20,6 +20,15 @@ if(isset($_SESSION['username'])) {
 		
         // Afficher les données de l'utilisateur
         echo  $nom . "<br>";
+        $firstname = $row['firstnamefr'];
+        $lastname = $row['lastnamefr'];
+        $phone = $row['tele'];
+        $faculty = $row['fac'];
+        $depert = $row['dept'];
+        $email = $row['email'];
+
+
+
        
     }
 ?>
@@ -240,7 +249,7 @@ if(isset($_SESSION['username'])) {
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
+              <h6></h6>
               <span>Web Designer</span>
             </li>
             <li>
@@ -550,8 +559,8 @@ if(isset($_SESSION['username'])) {
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <img src="assets1/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-              <h2>Kevin Anderson</h2>
-              <h3>Web Designer</h3>
+              <h2><?php echo $firstname; ?> <?php echo $lastname; ?></h2>
+              <h3>enseignant</h3>
               <div class="social-links mt-2">
                 <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
                 <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -590,44 +599,44 @@ if(isset($_SESSION['username'])) {
               <div class="tab-content pt-2">
 
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                  <h5 class="card-title">About</h5>
-                  <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
-
-                  <h5 class="card-title">Profile Details</h5>
+                  <!--<h5 class="card-title">About</h5>
+                  <p class="small fst-italic"> <?php echo "Hi hana"?> </p>
+                  <h5 class="card-title">Profile Details</h5>-->
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                    <div class="col-lg-9 col-md-8">Kevin Anderson</div>
+                    <div class="col-lg-3 col-md-4 label ">First Name</div>
+                    <div class="col-lg-9 col-md-8"><?php echo $firstname; ?></div>
+                   
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Company</div>
-                    <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
+                    <div class="col-lg-3 col-md-4 label">Last Name</div>
+                    <div class="col-lg-9 col-md-8"><?php echo $lastname; ?></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Job</div>
-                    <div class="col-lg-9 col-md-8">Web Designer</div>
+                    <div class="col-lg-3 col-md-4 label">Faculty</div>
+                    <div class="col-lg-9 col-md-8"><?php echo $faculty; ?></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Country</div>
-                    <div class="col-lg-9 col-md-8">USA</div>
+                    <div class="col-lg-3 col-md-4 label">Depertement</div>
+                    <div class="col-lg-9 col-md-8"><?php echo $depert; ?></div>
                   </div>
 
-                  <div class="row">
+                 <!-- <div class="row">
                     <div class="col-lg-3 col-md-4 label">Address</div>
                     <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
-                  </div>
+                  </div>-->
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Phone</div>
-                    <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
+                    <div class="col-lg-9 col-md-8"><?php echo $phone; ?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Email</div>
-                    <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+                    <div class="col-lg-9 col-md-8"><?php echo $email; ?></div>
                   </div>
 
                 </div>

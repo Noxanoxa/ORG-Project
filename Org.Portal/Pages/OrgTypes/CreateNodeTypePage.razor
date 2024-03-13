@@ -1,0 +1,11 @@
+﻿@page "/types/create"
+<h3>CreateNodeTypePage</h3>
+
+@if (hasError)
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+<button class="btn btn-primary" @onclick="createNodeType">Creer le type de noeud</button>

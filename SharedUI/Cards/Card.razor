@@ -1,0 +1,18 @@
+﻿
+<div class=@cssClass>
+    <div class=@headerCss>
+        @Title
+        @HeaderPills
+    </div>
+    <div class="card-body">
+        @Alert
+        @CardBody
+    </div>
+    <If Condition=@ShowFooter>
+        <Then>
+            <div class="card-footer">
+                @CardFooter
+            </div>
+        </Then>
+    </If>
+</div>

@@ -1,0 +1,18 @@
+﻿<div class="card card-sm  elevation-2">
+    <div class="card-header" style="cursor:pointer" id=@headingId data-toggle="collapse" data-target=@bodyTarget aria-expanded="true" aria-controls=@bodyId>
+        @Title
+    </div>
+    <div id=@bodyId class=@collapseCss aria-labelledby=@headingId data-parent=@accordionName>
+        <div class="card-body">
+            @CardBody
+        </div>
+        <If Condition=@ShowFooter>
+            <Then>
+                <div class="card-footer">
+                    @CardFooter
+                </div>
+            </Then>
+        </If>
+        
+    </div>
+</div>

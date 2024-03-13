@@ -1,0 +1,21 @@
+﻿@using Org.Domains.Nodes
+
+<div>
+    <input type="checkbox" @bind=@Occurence.HasLimit @onclick=@check/> Répétition
+    @if (Occurence.HasLimit)
+    {
+        <input type="number" @bind=@Occurence.Nombre/>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public IOccurence Occurence { get; set; }
+
+
+    private void check()
+    {
+        Occurence.HasLimit = !Occurence.HasLimit;
+    }
+
+}

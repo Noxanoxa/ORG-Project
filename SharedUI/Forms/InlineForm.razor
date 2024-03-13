@@ -1,0 +1,9 @@
+﻿<div class=@divCSS>
+    @ChildContent
+</div>
+@code {
+[Parameter] public RenderFragment ChildContent { get; set; }
+[Parameter] public string Size { get; set; }
+
+private string divCSS => string.IsNullOrWhiteSpace(Size) ? "inline-form" : $"inline-form form-{Size}";
+}

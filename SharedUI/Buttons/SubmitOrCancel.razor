@@ -1,0 +1,21 @@
+﻿<button type="submit" class="btn btn-success ">
+    @if (showIcon)
+{
+    <i class=@iconCss></i>
+}
+    @SubmitLabel
+</button>
+<button type="button" class="btn btn-light" @onclick=@close>@CancelLabel</button>
+
+@code {
+    [Parameter] public Action OnClose { get; set; }
+[Parameter] public string SubmitLabel { get; set; } = "Enregistrer";
+[Parameter] public string CancelLabel { get; set; } = "Annuler";
+
+[Parameter] public string submitIcon { get; set; } = "save";
+
+private bool showIcon => string.IsNullOrWhiteSpace(submitIcon) == false;
+private string iconCss => $"fa fa-{submitIcon} mr-2";
+
+private void close() => OnClose.Invoke();
+}

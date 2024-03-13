@@ -1,0 +1,28 @@
+﻿@page "/"
+@using Org.Domains.Nodes
+
+<PageTitle>Index</PageTitle>
+
+<div class="row">
+    
+    
+    <div>
+        <label>Code</label><input type="text" @bind=@noeud.NodeType.Id/>
+    </div>
+    <div>
+        <label>Nom</label><input type="text" @bind=@noeud.NodeType.Name/>
+    </div>
+    
+    <button type="button" @onclick=@clicked></button>
+</div>
+
+
+@code
+{
+    private NodeChild noeud = new NodeChild();
+
+    private void clicked()
+    {
+        Console.WriteLine("text");
+    }
+}

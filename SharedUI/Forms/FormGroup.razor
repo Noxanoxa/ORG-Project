@@ -1,0 +1,11 @@
+﻿<div class="form-group">
+    <label>@Label</label>
+    @ChildContent
+</div>
+@code{
+[Parameter] public RenderFragment ChildContent { get; set; }
+
+[Parameter] public string Label { get; set; }
+
+[Parameter] public int LabelWidth { get; set; }
+}

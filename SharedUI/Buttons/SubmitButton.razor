@@ -1,0 +1,15 @@
+﻿<button type="submit" class="btn text-success ">
+    @if (showIcon)
+{
+    <i class=@iconCss></i>
+}
+    @Label
+</button>
+
+@code {
+    [Parameter] public string Label { get; set; } = "Enregistrer";
+    [Parameter] public string Icon { get; set; } = "save";
+    
+    private bool showIcon => string.IsNullOrWhiteSpace(Icon) == false;
+    private string iconCss => $"fa fa-{Icon} mr-2";
+}

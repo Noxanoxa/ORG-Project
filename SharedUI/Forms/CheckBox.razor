@@ -1,0 +1,13 @@
+﻿<div class="custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" onclick=@readOnlyCommand checked=@Checked>
+    <label class="custom-control-label">
+        @Text
+    </label>
+</div>
+@code {
+[Parameter] public string Text { get; set; }
+[Parameter] public bool Checked { get; set; }
+[Parameter] public bool ReadOnly { get; set; } = false;
+
+string readOnlyCommand => ReadOnly ? "this.checked=!this.checked;" : "";
+}

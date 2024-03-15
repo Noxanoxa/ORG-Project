@@ -2,7 +2,12 @@
 {
     public record Role
     {
-        private Role(Guid roleId, string roleCode, string roleName)
+        public Guid RoleId { get; set; }
+        public string RoleCode { get; set; } = null!;
+        public string RoleName { get; set; } = null!;
+
+        private Role() => RoleId = Guid.NewGuid();
+        private Role(Guid roleId, string roleCode, string roleName) : this()
         {
             RoleId = roleId;
             RoleCode = roleCode;
@@ -13,13 +18,5 @@
             new(roleId, roleCode, roleName);
         public static Role Create(string roleCode, string roleName) =>
             new(Guid.NewGuid(), roleCode, roleName);
-        public Guid RoleId { get; set; }
-        public string RoleCode { get; set; }
-        public string RoleName { get; set; }
-
-        public Role()
-        {
-            RoleId = Guid.NewGuid();
-        }
     }
 }

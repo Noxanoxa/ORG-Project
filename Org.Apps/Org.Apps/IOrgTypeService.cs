@@ -6,7 +6,7 @@ public interface IOrgTypeService
 {
     ValueTask CreateNodeType(NodeType nodeType);
 
-    ValueTask<NodeType> GetNodeTypeById(Guid id);
+    ValueTask<NodeType?> GetNodeTypeById(Guid id);
 
-    ValueTask<NodeType> GetNodeTypeByCode(string code);
+    ValueTask<NodeType?> GetNodeTypeByCode(string code);
 }

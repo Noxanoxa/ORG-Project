@@ -50,10 +50,13 @@ namespace Org.Storages
 
             return dt.Rows.Count == 0
                 ? null
-                : Role.Create(
-                    dt.Rows[0]["RoleId"].AsGuid(),
-                    dt.Rows[0]["RoleCode"].AsString(),
-                    dt.Rows[0]["RoleName"].AsString());
+                : createRoleFromRow(dt.Rows[0]);
         }
+
+        private static Role createRoleFromRow(DataRow row) =>
+            Role.Create(
+                row["RoleId"].AsGuid(),
+                row["RoleCode"].AsString(),
+                row["RoleName"].AsString());
     }
 }

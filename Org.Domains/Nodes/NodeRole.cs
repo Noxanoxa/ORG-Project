@@ -4,7 +4,7 @@ namespace Org.Domains.Nodes;
 
 public class NodeRole : IOccurence
 {
-    public Role Role { get; set; } = new Role();
+    public Role Role { get; set; }
 
     public int MinValue { get; set; }
     public int MaxValue { get; set; }

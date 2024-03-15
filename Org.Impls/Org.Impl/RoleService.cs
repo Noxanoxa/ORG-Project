@@ -7,10 +7,12 @@ namespace Org.Impl
 {
     public class RoleService : IRoleService
     {
-        private RoleStorage roleStorage;
+        private readonly RoleStorage roleStorage;
 
         public RoleService(IConfiguration configuration)
         {
+            string connectionString = configuration.GetConnectionString("ORGDB");
+            roleStorage = new RoleStorage(connectionString);
         }
 
         public async ValueTask<List<Role>> GetRoles()

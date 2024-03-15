@@ -58,13 +58,13 @@ namespace Org.Impl
             if (await GetNodeTypeByCode(nodeType.Code) is not null)
                 throw new Exception("Code du noeud existe déja");
 
-            //foreach (NodeRole nodeRole in nodeType.Roles)
-            //{
-            //    if (await roleService.GetRoleById(nodeRole.Role.RoleId) is null)
-            //    {
-            //        throw new Exception("Le role n'existe pas");
-            //    }
-            //}
+            foreach (NodeRole nodeRole in nodeType.Roles)
+            {
+                if (await roleService.GetRoleById(nodeRole.Role.RoleId) is null)
+                {
+                    throw new Exception("Le role n'existe pas");
+                }
+            }
 
             foreach (NodeChild nodeChild in nodeType.SubNodes)
             {
@@ -75,12 +75,12 @@ namespace Org.Impl
             }
         }
 
-        public async ValueTask<NodeType> GetNodeTypeById(Guid id)
+        public async ValueTask<NodeType?> GetNodeTypeById(Guid id)
         {
             return await orgTypeStorage.SelectNodeTypeById(id);
         }
 
-        public async ValueTask<NodeType> GetNodeTypeByCode(string code)
+        public async ValueTask<NodeType?> GetNodeTypeByCode(string code)
         {
             return await orgTypeStorage.SelectNodeTypeByCode(code);
         }

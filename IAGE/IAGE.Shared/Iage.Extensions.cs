@@ -4,7 +4,7 @@
     {
         public static string AsString(this object obj) => (string)obj;
 
-        public static Guid AsGuid(this object obj) => Guid.Parse((string)obj);
+        public static Guid AsGuid(this object obj) => Guid.Parse(obj.ToString());
 
         public static bool AsBool(this object obj) => (bool)obj;
 

@@ -1,0 +1,36 @@
+﻿@using Org.Domains.Nodes
+<div class="form-group">
+    <div class="d-flex">
+        <label>Code : </label>
+        <input type="text" class="form-control w-25" @bind=@nodeType.Code/>
+    </div> 
+    <div class="d-flex">
+        <label>Nom : </label>
+        <input type="text" class="form-control" @bind=@nodeType.Name/>
+    </div> 
+    
+    Liste des sous noeud
+    <hr/>
+    <ul>
+    @foreach(NodeChild child in children)
+    {
+        <li>@child.NodeType.Code - @child.NodeType.Name (Min : @child.MinValue , Max = @child.MaxValue)</li>
+    }
+    </ul>
+    
+    @if (addChildFormVisible)
+    {
+        <div>
+            <SubNodeEdit OnChildAdded=@addNewChild></SubNodeEdit>
+        </div>
+    }
+    else
+    {
+        <button class="btn btn-sm btn-primary" @onclick=@showAddChildForm> Ajouter un child</button>
+    }
+    
+    
+    <div class="mt-5">
+        <button type="button" class="btn btn-success" @onclick=@createNode>Créer le type de Noeud</button>
+    </div>
+</div>

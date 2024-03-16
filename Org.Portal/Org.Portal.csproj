@@ -10,6 +10,7 @@
     <ProjectReference Include="..\Org.Apps\Org.Apps\Org.Apps.csproj" />
     <ProjectReference Include="..\Org.Domains\Org.Domains.csproj" />
     <ProjectReference Include="..\Org.Impls\Org.Impl\Org.Impl.csproj" />
+    <ProjectReference Include="..\Org.UI\Org.UI.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
 ﻿@page "/types/create"
+
+
 <h3>CreateNodeTypePage</h3>
 
 @if (hasError)
@@ -7,5 +9,7 @@
         @errorMessage
     </div>
 }
+<div style="max-width: 300px">
+    <NodeTypeEdit />
 
-<button class="btn btn-primary" @onclick="createNodeType">Creer le type de noeud</button>
+</div>

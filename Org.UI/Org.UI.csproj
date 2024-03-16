@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,8 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Org.Domains\Org.Domains.csproj" />
-    <ProjectReference Include="..\SharedUI\SharedUI.csproj" />
+    <ProjectReference Include="..\Org.Apps\Org.Apps\Org.Apps.csproj" />
   </ItemGroup>
 
 </Project>

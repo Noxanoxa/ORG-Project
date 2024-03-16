@@ -84,5 +84,10 @@ namespace Org.Impl
         {
             return await orgTypeStorage.SelectNodeTypeByCode(code);
         }
+
+        public async ValueTask<List<NodeType>> GetNodeTypes()
+        {
+            return await orgTypeStorage.SelectNodeTypes();
+        }
     }
 }

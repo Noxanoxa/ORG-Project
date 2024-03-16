@@ -87,10 +87,7 @@ namespace Org.Storages
             if (dt.Rows.Count == 0)
                 return null;
 
-            return NodeType.Create(
-                dt.Rows[0]["Id"].AsGuid(),
-                dt.Rows[0]["Code"].AsString(),
-                dt.Rows[0]["Name"].AsString());
+            return getFromRow(dt.Rows[0]);
         }
 
         private const string selectNodeTypeByCodeQuery = "SELECT * FROM OrgTypes.NODES WHERE Code = @aCode";
@@ -110,10 +107,29 @@ namespace Org.Storages
             if (dt.Rows.Count == 0)
                 return null;
 
-            return NodeType.Create(
-                dt.Rows[0]["Id"].AsGuid(),
-                dt.Rows[0]["Code"].AsString(),
-                dt.Rows[0]["Name"].AsString());
+            return getFromRow(dt.Rows[0]);
         }
+
+        private const string selectNodeTypesQuery = "SELECT * FROM OrgTypes.NODES ";
+
+        public async Task<List<NodeType>> SelectNodeTypes()
+        {
+            await using var connection = new SqlConnection(connectionString);
+            SqlCommand cmd = new(selectNodeTypesQuery, connection);
+
+            SqlDataAdapter da = new(cmd);
+            connection.Open();
+            DataTable dt = new();
+            da.Fill(dt);
+
+            List<NodeType> list = new List<NodeType>();
+            foreach (DataRow row in dt.Rows)
+                list.Add(getFromRow(row));
+
+            return list;
+        }
+
+        private NodeType getFromRow(DataRow row) =>
+            NodeType.Create(row["Id"].AsGuid(), row["Code"].AsString(), row["Name"].AsString());
     }
 }

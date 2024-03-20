@@ -24,5 +24,10 @@ namespace Org.Impl
         {
             return await roleStorage.SelectRoleById(roleId);
         }
+
+        public async ValueTask<bool> CreatRole(Guid roleId, string roleCode, string roleName)
+        {
+            return await roleStorage.InsertRole(roleId, roleCode, roleName);
+        }
     }
 }

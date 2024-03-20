@@ -13,6 +13,25 @@ namespace Org.Storages
         public RoleStorage(string connectionString) =>
             this.connectionString = connectionString;
 
+        private const string insertRoleCommand = "INSERT orgTypes.ROLES VALUES(@aRoleId, @aRoleCode, @aRoleName)";
+
+        public async ValueTask<bool> InsertRole(Guid roleId, string roleCode, string roleName)
+        {
+            await using var connection = new SqlConnection(connectionString);
+            SqlCommand cmd = new(insertRoleCommand, connection);
+
+            cmd.Parameters.AddWithValue("@aRoleId", roleId);
+            cmd.Parameters.AddWithValue("@aRoleCode", roleCode);
+            cmd.Parameters.AddWithValue("@aRoleName", roleName);
+
+            await connection.OpenAsync();
+            int insertedRows = (int)await cmd.ExecuteNonQueryAsync();
+
+            return insertedRows != 0;
+        }
+
+       
+
         private const string selectRolesQuery = "SELECT * FROM ROLES";
 
         public async ValueTask<List<Role>> SelectRoles()

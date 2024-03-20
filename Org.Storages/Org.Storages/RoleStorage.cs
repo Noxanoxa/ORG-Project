@@ -13,7 +13,7 @@ namespace Org.Storages
         public RoleStorage(string connectionString) =>
             this.connectionString = connectionString;
 
-        private const string insertRoleCommand = "INSERT orgTypes.ROLES VALUES(@aRoleId, @aRoleCode, @aRoleName)";
+        private const string insertRoleCommand = "INSERT INTO orgTypes.ROLES (RoleId, ReoleCode, RoleName) VALUES (@aRoleId, @aRoleCode, @aRoleName)\r\n";
 
         public async ValueTask<bool> InsertRole(Guid roleId, string roleCode, string roleName)
         {

@@ -1,0 +1,26 @@
+@using Org.UI.OrgTypes;
+
+<style>
+    input{
+    border-style: solid;
+    border-radius: 5px;
+    margin-top: 5px;
+    }
+    form{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    flex-direction: column;
+    }
+</style>
+
+<form>
+    <div></div>
+    <input type="text" placeholder="Role Code" @bind="roleModel.RoleCode"/>
+    <input type="text" placeholder="Role Name" @bind="roleModel.RoleName"/>
+    <input type="number" placeholder="Min" @bind="nodeRoleModel.MinValue"/>
+    <input type="number" placeholder="Max" @bind="nodeRoleModel.MaxValue"/>
+    
+    <button type="button" class="btn btn-sm btn-primary" @onclick="addNodeRole">Add New Role </button>
+</form>
+

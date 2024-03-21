@@ -13,21 +13,30 @@ namespace Org.Storages
         public RoleStorage(string connectionString) =>
             this.connectionString = connectionString;
 
-        private const string insertRoleCommand = "INSERT orgTypes.ROLES VALUES(@aRoleId, @aRoleCode, @aRoleName)";
+        private const string insertRoleCommand = "INSERT dbo.ROLES (RoleId,ReoleCode,RoleName) VALUES(@aRoleId, @aRoleCode, @aRoleName)";
 
         public async ValueTask<bool> InsertRole(Guid roleId, string roleCode, string roleName)
         {
-            await using var connection = new SqlConnection(connectionString);
-            SqlCommand cmd = new(insertRoleCommand, connection);
+            try
+            {
+                await using var connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new(insertRoleCommand, connection);
 
-            cmd.Parameters.AddWithValue("@aRoleId", roleId);
-            cmd.Parameters.AddWithValue("@aRoleCode", roleCode);
-            cmd.Parameters.AddWithValue("@aRoleName", roleName);
+                cmd.Parameters.AddWithValue("@aRoleId", roleId);
+                cmd.Parameters.AddWithValue("@aRoleCode", roleCode);
+                cmd.Parameters.AddWithValue("@aRoleName", roleName);
 
-            await connection.OpenAsync();
-            int insertedRows = (int)await cmd.ExecuteNonQueryAsync();
-
-            return insertedRows != 0;
+                 connection.Open();
+            
+                int insertedRows = (int) cmd.ExecuteNonQuery();
+                return insertedRows != 0;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.AsString());
+            }
+          
+            
         }
 
        

@@ -7,6 +7,7 @@
         public string RoleName { get; set; } = null!;
 
         private Role() => RoleId = Guid.NewGuid();
+        
         private Role(Guid roleId, string roleCode, string roleName) : this()
         {
             RoleId = roleId;
@@ -18,5 +19,10 @@
             new(roleId, roleCode, roleName);
         public static Role Create(string roleCode, string roleName) =>
             new(Guid.NewGuid(), roleCode, roleName);
+
+        public static Role Create()
+        {
+            return new Role();
+        }
     }
 }

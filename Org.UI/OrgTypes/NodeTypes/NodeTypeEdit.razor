@@ -1,4 +1,13 @@
 ﻿@using Org.Domains.Nodes
+@using Org.UI.OrgTypes.NodeRoles
+@rendermode InteractiveServer
+<style>
+table, th, td {
+  border:1px solid black;
+  text-align: center;
+}
+</style>
+
 <div class="form-group">
     <div class="d-flex">
         <label>Code : </label>
@@ -8,8 +17,35 @@
         <label>Nom : </label>
         <input type="text" class="form-control" @bind=@nodeType.Name/>
     </div> 
+    <h3 style="margin-top: 50px">Node Roles</h3>
+    <table style="width: 150%">
+        <tr>
+            <th>Role Code</th>   
+            <th>Role Name</th>  
+            <th>Min</th>
+            <th>Max</th>
+        </tr>    
+            
+        @foreach(NodeRole role in nodeRoles)
+        {
+            <tr>
+                <td>@role.Role.RoleCode</td>    
+                <td>@role.Role.RoleName</td> 
+                <td>@role.MinValue</td> 
+                <td>@role.MaxValue</td> 
+            </tr> 
+        }
+            
+    </table>
+    <button class="btn btn-sm btn-primary" style="margin-top: 10px" @onclick="showAddRole">Show Add Role</button>
     
-    Liste des sous noeud
+    @if (isAddRoleVisible)
+    {
+        <AddNodeRole OnChildAdded="AddNodeRole"></AddNodeRole>
+    }
+   
+    
+    <h2 style="margin-top: 60px">Liste des sous noeud</h2>
     <hr/>
     <ul>
     @foreach(NodeChild child in children)

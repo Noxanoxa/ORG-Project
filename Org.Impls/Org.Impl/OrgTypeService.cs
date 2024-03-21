@@ -18,7 +18,7 @@ namespace Org.Impl
             )
         {
             this.roleService = roleService;
-            string connectionString = configuration.GetConnectionString("ORGDB");
+            string connectionString = configuration.GetConnectionString("ORGTEAM");
             orgTypeStorage = new OrgTypeStorage(connectionString);
         }
 

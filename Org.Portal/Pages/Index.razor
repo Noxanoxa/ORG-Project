@@ -1,28 +1,33 @@
 ﻿@page "/"
 @using Org.Domains.Nodes
+@using Org.Impl
+@using Org.Storages
+@using Org.Apps
+@rendermode InteractiveServer
 
 <PageTitle>Index</PageTitle>
 
 <div class="row">
+    <label >Code</label>
+    <input type="text" @bind="roleCode"/>
+    <label>RoleName</label>
+    <input type="text" @bind="roleName"/>
     
-    
-    <div>
-        <label>Code</label><input type="text" @bind=@noeud.NodeType.Id/>
-    </div>
-    <div>
-        <label>Nom</label><input type="text" @bind=@noeud.NodeType.Name/>
-    </div>
-    
-    <button type="button" @onclick=@clicked></button>
+    <button type="button" @onclick=@CreateRole>Insert Role</button>
 </div>
 
 
 @code
 {
-    private NodeChild noeud = new NodeChild();
+    private string roleCode, roleName;
 
-    private void clicked()
+    RoleStorage RoleStorage = new RoleStorage("");
+    private void CreateRole()
     {
-        Console.WriteLine("text");
+      bool result=  RoleStorage.InsertRole(Guid.NewGuid(), roleCode, roleName).Result;
+      if (result)
+      {
+          Console.Write("inserted");
+      }
     }
 }

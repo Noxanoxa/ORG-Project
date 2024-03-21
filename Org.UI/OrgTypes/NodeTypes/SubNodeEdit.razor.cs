@@ -38,6 +38,7 @@ namespace Org.UI.OrgTypes.NodeTypes
                 MinValue = minValue,
                 MaxValue = maxValue
             };
+            
             OnChildAdded.InvokeAsync(child);
         }
     }

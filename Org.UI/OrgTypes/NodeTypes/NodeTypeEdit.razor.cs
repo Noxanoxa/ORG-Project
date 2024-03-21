@@ -16,8 +16,14 @@ namespace Org.UI.OrgTypes.NodeTypes
         private NodeTypeModel nodeType = new NodeTypeModel();
 
         private List<NodeChild> children = new List<NodeChild>();
+
+        private List<Domains.Nodes.NodeRole> nodeRoles = new List<Domains.Nodes.NodeRole>();
+        
         private NodeChild childToAdd = new NodeChild();
         private bool addChildFormVisible = false;
+        private bool isAddRoleVisible;
+
+     
 
         private async Task createNode()
         {
@@ -35,12 +41,29 @@ namespace Org.UI.OrgTypes.NodeTypes
         private void showAddChildForm()
         {
             addChildFormVisible = true;
+            StateHasChanged();
         }
+
+        private void showAddRole()
+        {
+            this.isAddRoleVisible = true;
+            StateHasChanged();
+        }
+
+       
 
         private void addNewChild(NodeChild newChild)
         {
             children.Add(newChild);
             addChildFormVisible = false;
+            StateHasChanged();
+        }
+
+
+        private void AddNodeRole(NodeRole noderole)
+        {
+            nodeRoles.Add(noderole);
+            isAddRoleVisible = false;
             StateHasChanged();
         }
     }

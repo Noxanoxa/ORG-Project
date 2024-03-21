@@ -1,0 +1,59 @@
+﻿@using Org.Apps
+@using Org.Domains.Persons
+@using Org.Domains.Shared
+
+
+<div>
+    <EditForm Model=@role OnValidSubmit="createRole">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+        @if (hasError)
+        {
+            <ul class="text-danger">
+                @foreach (ErrorCode error in errors)
+                {
+                    <li>@error.Code - @error.Message</li>
+                }
+            </ul>
+        }
+        <div class="form-group">
+            <label>Code</label>
+            <InputText class="form-control" @bind-Value=@role.RoleCode/>
+        </div>
+        <div class="form-group">
+            <label>Nom</label>
+            <InputText class="form-control" @bind-Value=@role.RoleName/>
+        </div>
+        <button type="submit" class="btn btn-success">Créer le role</button>
+    </EditForm>
+    
+</div>
+
+@code {
+    [Inject] public IRoleService roleService { get; set; }
+
+    [Parameter] public EventCallback<Role> OnRoleCreated { get; set; }
+    [Parameter] public EventCallback<List<ErrorCode>> OnFailure { get; set; }
+    private RoleModel role = new RoleModel();
+
+    private bool hasError = false;
+    private List<ErrorCode> errors = new List<ErrorCode>();
+    private async Task createRole()
+    {
+        hasError = false;
+
+        Role roleToCreate = Role.Create(roleCode: role.RoleCode, roleName: role.RoleName);
+
+        Result result = await roleService.CreateRole(roleToCreate);
+
+        if (result.Successed)
+            await OnRoleCreated.InvokeAsync(roleToCreate);
+        else
+        {
+            hasError = true;
+            errors = result.ErrorCodes;
+        }
+
+        role = new RoleModel();
+    }
+}

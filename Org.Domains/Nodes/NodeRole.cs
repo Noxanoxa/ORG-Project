@@ -16,11 +16,10 @@ public class NodeRole : IOccurence
         MaxValue = maxValue;
     }
 
-    public static NodeRole createNodeRole(Role role , int min , int max)
+    public static NodeRole Create(Role role, int min, int max)
     {
         return new NodeRole(role, min, max);
     }
-
 
     private NodeRole()
     {
@@ -28,8 +27,6 @@ public class NodeRole : IOccurence
         this.MinValue = 0;
         this.MaxValue = 1;
     }
-    public static NodeRole createNodeRole()
-    {
-        return new NodeRole();
-    }
+
+    public static NodeRole Create() => new();
 }

@@ -1,4 +1,5 @@
 ﻿@using Org.Domains.Nodes
+@using Org.Domains.Persons
 @using Org.UI.OrgTypes.NodeRoles
 @rendermode InteractiveServer
 <style>
@@ -17,34 +18,29 @@ table, th, td {
         <label>Nom : </label>
         <input type="text" class="form-control" @bind=@nodeType.Name/>
     </div> 
-    <h3 style="margin-top: 50px">Node Roles</h3>
-    <table style="width: 150%">
-        <tr>
-            <th>Role Code</th>   
-            <th>Role Name</th>  
-            <th>Min</th>
-            <th>Max</th>
-        </tr>    
-            
+    
+    
+    <h2 style="margin-top: 60px">Liste des roles</h2>
+    <hr/>
+    <ul>
         @foreach(NodeRole role in nodeRoles)
         {
-            <tr>
-                <td>@role.Role.RoleCode</td>    
-                <td>@role.Role.RoleName</td> 
-                <td>@role.MinValue</td> 
-                <td>@role.MaxValue</td> 
-            </tr> 
+            <li>@role.Role.RoleCode - @role.Role.RoleCode (Min : @role.MinValue , Max = @role.MaxValue)</li>
         }
-            
-    </table>
-    <button class="btn btn-sm btn-primary" style="margin-top: 10px" @onclick="showAddRole">Show Add Role</button>
-    
-    @if (isAddRoleVisible)
+    </ul>
+    @if (addRoleFormVisible)
     {
-        <AddNodeRole OnChildAdded="AddNodeRole"></AddNodeRole>
+        <div>
+            <NodeRoleEdit OnRoleAdded=@addNewRole/>
+        </div>
     }
-   
+    else
+    {
+        <button class="btn btn-sm btn-primary" @onclick=@showAddroleForm> Ajouter un Role</button>
+    }
     
+
+   
     <h2 style="margin-top: 60px">Liste des sous noeud</h2>
     <hr/>
     <ul>
@@ -57,7 +53,7 @@ table, th, td {
     @if (addChildFormVisible)
     {
         <div>
-            <SubNodeEdit OnChildAdded=@addNewChild></SubNodeEdit>
+            <SubNodeEdit OnChildAdded=@addNewChild />
         </div>
     }
     else

@@ -1,8 +1,5 @@
 using Org.Apps;
 using Org.Impl;
-using Org.Portal;
-using Org.Portal.Pages;
-using Index = Org.Portal.Pages.Index;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +27,5 @@ app.UseAntiforgery();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
-
 
 app.Run();

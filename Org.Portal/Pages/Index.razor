@@ -3,31 +3,46 @@
 @using Org.Impl
 @using Org.Storages
 @using Org.Apps
-@rendermode InteractiveServer
+@using Org.Domains.Persons
+@using Org.Domains.Shared
 
+@inject IRoleService RoleService
 <PageTitle>Index</PageTitle>
 
-<div class="row">
-    <label >Code</label>
-    <input type="text" @bind="roleCode"/>
-    <label>RoleName</label>
-    <input type="text" @bind="roleName"/>
-    
-    <button type="button" @onclick=@CreateRole>Insert Role</button>
-</div>
+<div style="max-width: 300px">
+    <h5> liste des roles</h5>
+    <select class="form-control">
+        @foreach (Role role in roles)
+        {
+            <option value=@role.RoleId>@role.RoleCode-@role.RoleName</option>
+        }
+    </select>
+    <br/>
+    <CreateRoleForm OnRoleCreated=addRoleToList OnFailure=@creationFailed/>
 
+</div>
 
 @code
 {
     private string roleCode, roleName;
 
-    RoleStorage RoleStorage = new RoleStorage("");
-    private void CreateRole()
+    private List<ErrorCode> errors;
+
+    private List<Role> roles = new List<Role>();
+
+    protected override async Task OnInitializedAsync()
     {
-      bool result=  RoleStorage.InsertRole(Guid.NewGuid(), roleCode, roleName).Result;
-      if (result)
-      {
-          Console.Write("inserted");
-      }
+        roles = await RoleService.GetRoles();
     }
+
+    private void addRoleToList(Role role)
+    {
+        roles.Add(role);
+    }
+
+    private void creationFailed(List<ErrorCode> errorCodes)
+    {
+
+    }
+
 }

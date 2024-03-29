@@ -10,6 +10,7 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 builder.Services.AddScoped<IOrgTypeService, OrgTypeService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<INodeService, NodeService>();
 
 var app = builder.Build();
 

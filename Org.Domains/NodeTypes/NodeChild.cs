@@ -1,15 +1,15 @@
-﻿namespace Org.Domains.Nodes;
+﻿namespace Org.Domains.NodeTypes;
 
 public class NodeChild : IOccurence
 {
-    public NodeType NodeType { get; set; } = new NodeType();
+    public Guid NodeTypeId { get; set; }
 
     public int MinValue { get; set; }
     public int MaxValue { get; set; }
 
-    public NodeChild(NodeType node, int minValue, int maxValue)
+    public NodeChild(Guid childId, int minValue, int maxValue)
     {
-        NodeType = node;
+        NodeTypeId = childId;
         MinValue = minValue;
         MaxValue = maxValue;
     }

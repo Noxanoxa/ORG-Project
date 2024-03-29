@@ -1,6 +1,6 @@
-﻿@using Org.Domains.Nodes
-@using Org.Domains.Persons
+﻿@using Org.Domains.Persons
 @using Org.UI.OrgTypes.NodeRoles
+@using Org.Domains.NodeTypes
 @rendermode InteractiveServer
 <style>
 table, th, td {
@@ -25,7 +25,7 @@ table, th, td {
     <ul>
         @foreach(NodeRole role in nodeRoles)
         {
-            <li>@role.Role.RoleCode - @role.Role.RoleCode (Min : @role.MinValue , Max = @role.MaxValue)</li>
+            <li>@role.RoleId (Min : @role.MinValue , Max = @role.MaxValue)</li>
         }
     </ul>
     @if (addRoleFormVisible)
@@ -46,7 +46,7 @@ table, th, td {
     <ul>
     @foreach(NodeChild child in children)
     {
-        <li>@child.NodeType.Code - @child.NodeType.Name (Min : @child.MinValue , Max = @child.MaxValue)</li>
+        <li>@child.NodeTypeId.ToString() (Min : @child.MinValue , Max = @child.MaxValue)</li>
     }
     </ul>
     

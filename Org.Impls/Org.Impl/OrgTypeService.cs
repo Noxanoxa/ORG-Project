@@ -1,7 +1,7 @@
 ﻿using System.Transactions;
 using Microsoft.Extensions.Configuration;
 using Org.Apps;
-using Org.Domains.Nodes;
+using Org.Domains.NodeTypes;
 using Org.Storages;
 
 namespace Org.Impl;
@@ -59,7 +59,7 @@ public class OrgTypeService : IOrgTypeService
 
         foreach (NodeRole nodeRole in nodeType.Roles)
         {
-            if (await roleService.GetRoleById(nodeRole.Role.RoleId) is null)
+            if (await roleService.GetRoleById(nodeRole.RoleId) is null)
             {
                 throw new Exception("Le role n'existe pas");
             }
@@ -67,7 +67,7 @@ public class OrgTypeService : IOrgTypeService
 
         foreach (NodeChild nodeChild in nodeType.SubNodes)
         {
-            if (await GetNodeTypeById(nodeChild.NodeType.Id) is null)
+            if (await GetNodeTypeById(nodeChild.NodeTypeId) is null)
             {
                 throw new Exception("Le sous noued n'existe pas");
             }

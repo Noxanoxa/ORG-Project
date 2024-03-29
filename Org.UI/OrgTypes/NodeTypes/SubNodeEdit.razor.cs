@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Org.Apps;
-using Org.Domains.Nodes;
+using Org.Domains.NodeTypes;
 
 namespace Org.UI.OrgTypes.NodeTypes;
 
@@ -29,7 +29,7 @@ public partial class SubNodeEdit
     {
         NodeChild child = new NodeChild()
         {
-            NodeType = nodes.FirstOrDefault(n => n.Id == subNode.Id),
+            NodeTypeId = nodes.FirstOrDefault(n => n.Id == subNode.Id).Id,
             MinValue = minValue,
             MaxValue = maxValue
         };

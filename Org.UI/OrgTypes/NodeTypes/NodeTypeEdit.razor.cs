@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Org.Apps;
-using Org.Domains.Nodes;
+using Org.Domains.NodeTypes;
 using Org.Domains.Persons;
 
 namespace Org.UI.OrgTypes.NodeTypes;
@@ -19,7 +19,7 @@ public partial class NodeTypeEdit
 
     private List<NodeChild> children = new List<NodeChild>();
 
-    private List<NodeRole> nodeRoles = new List<Domains.Nodes.NodeRole>();
+    private List<NodeRole> nodeRoles = new List<NodeRole>();
 
     private List<Role> roles = new List<Role>();
 

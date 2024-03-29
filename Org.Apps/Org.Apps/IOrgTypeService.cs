@@ -1,4 +1,4 @@
-﻿using Org.Domains.Nodes;
+﻿using Org.Domains.NodeTypes;
 
 namespace Org.Apps;
 

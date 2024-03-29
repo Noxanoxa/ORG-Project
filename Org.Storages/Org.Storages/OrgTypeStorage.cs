@@ -1,7 +1,7 @@
 ﻿using IAGE.Shared;
 using Microsoft.Data.SqlClient;
-using Org.Domains.Nodes;
 using System.Data;
+using Org.Domains.NodeTypes;
 
 namespace Org.Storages;
 
@@ -40,7 +40,7 @@ public class OrgTypeStorage
         SqlCommand cmd = new(addRoleToNodeTypeCommand, connection);
 
         cmd.Parameters.AddWithValue("@aNodeId", nodeId);
-        cmd.Parameters.AddWithValue("@aRoleId", nodeRole.Role.RoleId);
+        cmd.Parameters.AddWithValue("@aRoleId", nodeRole.RoleId);
         cmd.Parameters.AddWithValue("@aMinValue", nodeRole.MinValue);
         cmd.Parameters.AddWithValue("@aMaxValue", nodeRole.MaxValue);
 
@@ -59,7 +59,7 @@ public class OrgTypeStorage
         SqlCommand cmd = new(addSubNodeToNodeTypeCommand, connection);
 
         cmd.Parameters.AddWithValue("@aNodeId", nodeId);
-        cmd.Parameters.AddWithValue("@aSubNodeId", nodeChild.NodeType.Id);
+        cmd.Parameters.AddWithValue("@aSubNodeId", nodeChild.NodeTypeId);
         cmd.Parameters.AddWithValue("@aMinValue", nodeChild.MinValue);
         cmd.Parameters.AddWithValue("@aMaxValue", nodeChild.MaxValue);
 
@@ -69,24 +69,53 @@ public class OrgTypeStorage
         return insertedRows != 0;
     }
 
-    private const string selectNodeTypeByIdQuery = "SELECT * FROM OrgTypes.NODES WHERE ID = @aId";
+    private const string selectNodeTypeByIdQuery = "orgTypes.GetNodeType";
 
     public async ValueTask<NodeType> SelectNodeTypeById(Guid id)
     {
         await using var connection = new SqlConnection(connectionString);
-        SqlCommand cmd = new(selectNodeTypeByIdQuery, connection);
+        SqlCommand cmd = new(selectNodeTypeByIdQuery, connection)
+        {
+            CommandType = CommandType.StoredProcedure
+        };
 
-        cmd.Parameters.AddWithValue("@aId", id);
+        cmd.Parameters.AddWithValue("@aNodeId", id);
 
         SqlDataAdapter da = new(cmd);
         connection.Open();
-        DataTable dt = new();
-        da.Fill(dt);
+        DataSet ds = new();
+        da.Fill(ds);
 
-        if (dt.Rows.Count == 0)
+        if (ds.Tables[0].Rows.Count == 0)
             return null;
 
-        return getFromRow(dt.Rows[0]);
+        return getFromDataSet(ds);
+    }
+
+    private NodeType getFromDataSet(DataSet dataset)
+    {
+        NodeType result = new NodeType();
+        DataRow row = dataset.Tables[0].Rows[0];
+        result = NodeType.Create(row["Id"].AsGuid(), row["Code"].AsString(), row["Name"].AsString());
+
+        foreach (DataRow childRow in dataset.Tables[1].Rows)
+        {
+            result.SubNodes.Add(new NodeChild()
+            {
+                NodeTypeId = childRow["SubNodeId"].AsGuid(),
+                MinValue = (int)childRow["MinValue"],
+                MaxValue = (int)childRow["MaxValue"]
+            });
+        }
+
+        foreach (DataRow roleRow in dataset.Tables[2].Rows)
+        {
+            result.Roles.Add(
+                NodeRole.Create(roleRow["RoleId"].AsGuid(), (int)roleRow["MinValue"],
+                (int)roleRow["MaxValue"]));
+        }
+
+        return result;
     }
 
     private const string selectNodeTypeByCodeQuery = "SELECT * FROM OrgTypes.NODES WHERE Code = @aCode";

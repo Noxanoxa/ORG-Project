@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
+using Org.Domains.NodeTypes;
 using Org.Domains.Persons;
-using Org.Domains.Nodes;
 
 namespace Org.UI.OrgTypes.NodeRoles;
 
@@ -13,7 +13,7 @@ public partial class AddNodeRole
 
     public void addNodeRole()
     {
-        nodeRoleModel.Role = roleModel;
+        nodeRoleModel.RoleId = roleModel.RoleId;
 
         OnChildAdded.InvokeAsync(nodeRoleModel);
     }

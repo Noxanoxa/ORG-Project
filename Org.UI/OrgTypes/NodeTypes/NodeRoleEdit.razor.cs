@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Org.Apps;
-using Org.Domains.Nodes;
 using Org.Domains.Persons;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Org.Domains.NodeTypes;
 
 namespace Org.UI.OrgTypes.NodeTypes
 {
@@ -29,7 +29,7 @@ namespace Org.UI.OrgTypes.NodeTypes
 
         private void roleAdded()
         {
-            NodeRole role = NodeRole.Create(roles.FirstOrDefault(n => n.RoleId == nodeRole.RoleId), minValue,
+            NodeRole role = NodeRole.Create(roles.FirstOrDefault(n => n.RoleId == nodeRole.RoleId).RoleId, minValue,
                 maxValue);
 
             OnRoleAdded.InvokeAsync(role);

@@ -10,6 +10,7 @@ namespace Org.Portal.Pages
     {
         [Inject] private IOrgTypeService orgTypeService { get; set; }
         [Inject] private IRoleService roleService { get; set; }
+        [Inject] private INodeService nodeService { get; set; }
 
         private List<NodeType> nodeTypes;
         private List<Role> roles;
@@ -64,6 +65,7 @@ namespace Org.Portal.Pages
         {
             creatingNode = true;
             nodeToCreate = Node.Create(selectedId);
+            allowedRoles = getAllowedRoles();
         }
 
         private NodePerson personToCreate;
@@ -73,7 +75,7 @@ namespace Org.Portal.Pages
         {
             if (obj is not null)
             {
-                selectedRole = Guid.Parse((string)obj.Value);
+                personToCreate.RoleId = Guid.Parse((string)obj.Value);
             }
         }
 
@@ -81,30 +83,59 @@ namespace Org.Portal.Pages
 
         private void showAddPerson()
         {
+            allowedRoles?.Clear();
             personToCreate = new NodePerson();
             personToCreate.RoleId = selectedRole;
+            allowedRoles = getAllowedRoles();
             addPersonVisible = true;
         }
 
         private void addPersonToNode()
         {
-            nodeToCreate.Persons.Add(personToCreate);
-            addPersonVisible = false;
+            if (personToCreate.PersonId == Guid.Empty ||
+                personToCreate.RoleId == Guid.Empty ||
+                string.IsNullOrWhiteSpace(personToCreate.Nom))
+            {
+                addPersonVisible = false;
+            }
+            else
+            {
+                nodeToCreate.Persons.Add(personToCreate);
+                allowedRoles = getAllowedRoles();
+                addPersonVisible = false;
+            }
         }
+
+        private List<Role> allowedRoles;
 
         private List<Role> getAllowedRoles()
         {
             List<Role> result = new List<Role>();
             foreach (NodeRole role in selectedType.Roles)
             {
-                int maxRoles = selectedType.Roles.First(r => r.RoleId == role.RoleId).MaxValue;
+                int maxRoles = role.MaxValue;
                 if (nodeToCreate.Persons.Count(p => p.RoleId == role.RoleId) < maxRoles || maxRoles == 0)
                 {
-                    result.Add(roles.First(r => r.RoleId == role.RoleId));
+                    result.Add(roles.FirstOrDefault(r => r.RoleId == role.RoleId));
                 }
             }
 
-            return roles;
+            return result;
+        }
+
+        private async Task saveNode()
+        {
+            await nodeService.CreateNode(nodeToCreate);
+            foreach (NodePerson person in nodeToCreate.Persons)
+            {
+                await nodeService.AddPersonToNode(nodeToCreate.NodeId, person);
+            }
+        }
+
+        private void handleNodeCreated(Node nodeToHandle)
+        {
+            nodeToCreate.Code = nodeToHandle.Code;
+            nodeToCreate.Name = nodeToHandle.Name;
         }
     }
 }

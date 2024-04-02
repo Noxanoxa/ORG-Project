@@ -1,0 +1,32 @@
+﻿@using Org.Domains.Nodes
+<EditForm Model="newNode" OnValidSubmit="createNode">
+    <div class="card">
+        <div class="card-header">
+            Nouveau Noeud
+        </div>
+        <div class="card-body">
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <InputText class="form-control" @bind-Value="newNode.Code" placeholder="code"></InputText>
+            <InputText class="form-control" @bind-Value="newNode.Nom" placeholder="Nom"></InputText>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary">Créer le noeud</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter] public EventCallback<Node> OnNodeCreated { get; set; }
+    private CreateNodeModel newNode = new CreateNodeModel();
+
+    private void createNode()
+    {
+        Node nodeToCreate = new Node()
+        {
+            Code = newNode.Code,
+            Name = newNode.Nom
+        };
+        OnNodeCreated.InvokeAsync(nodeToCreate);
+    }
+}

@@ -1,6 +1,7 @@
 ﻿@page "/newnode"
 @using Org.Domains.NodeTypes
 @using Org.Domains.Persons
+@using Org.Domains.Nodes
 
 @if (hasError)
 {
@@ -22,7 +23,7 @@
 
     @if (selectedType is not null)
     {
-        <div class="mt-5" style="font-size: 80%">
+       @*  <div class="mt-5" style="font-size: 80%">
             <h3>@selectedType.Code - @selectedType.Name</h3>
             <h5>Roles</h5>
             <ul>
@@ -39,63 +40,69 @@
                     <li>@nodeName(nodeChild.NodeTypeId) (minn : @nodeChild.MinValue / max : @nodeChild.MaxValue)</li>
                 }
             </ul>
-        </div>
+        </div> *@
         <button type="button" class="btn btn-success" @onclick=@showCreatingNodeForm>Créer le Noeud</button>
     }
 
     @if (creatingNode)
     {
-        <h1>creating node form</h1>
-        <div class="form-group">
-            <label>Node Id</label>
-            <input class="form-control" @bind=@nodeToCreate.NodeId readonly="readonly"/>
-        </div>
-        <div class="form-group">
-            <label>Type Id</label>
-            <input class="form-control" @bind=@nodeToCreate.TypeId readonly="readonly" />
-        </div>
-        <div class="form-group">
-            <label>Code</label>
-            <input class="form-control" @bind=@nodeToCreate.Code />
-        </div>
-        <div class="form-group">
-            <label>Name</label>
-            <input class="form-control" @bind=@nodeToCreate.Name  />
+        <div style="max-width: 400px">
+        <CreateNodeForm OnNodeCreated="handleNodeCreated"/>
         </div>
         <h3 class="margin-button">Roles</h3>
         <div class="d-flex">
             
             @if (addPersonVisible)
             {
-                <div class="d-flex flex-column" style="width:300px">
-                    <div class="form-group">
-                        <label>Role Id</label>
-                        <input class="form-control" @bind=@personToCreate.RoleId readonly="readonly"/>
+                <EditForm Model="personToCreate" OnValidSubmit="addPersonToNode">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+                    <div class="d-flex flex-column" style="width: 600px">
+                        <select style="width: 300px" @bind=@personToCreate.RoleId>
+                            <option selected="selected">--------</option>
+                            @foreach (Role role in allowedRoles)
+                            {
+                                <option value="@role.RoleId">@role.RoleCode - @role.RoleName</option>
+                            }
+                        </select>
+                        <div class="form-group">
+                            <label>PErson Id</label>
+                            <input class="form-control" @bind=@personToCreate.PersonId readonly="readonly"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input class="form-control" @bind=@personToCreate.Nom/>
+                        </div>
+                        <button type="submit">Ajouter la personne</button>
                     </div>
-                    <div class="form-group">
-                        <label>PErson Id</label>
-                        <input class="form-control" @bind=@personToCreate.PersonId readonly="readonly" />
-                    </div>
-               
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input class="form-control" @bind=@personToCreate.Nom  />
-                    </div>
-                    <button @onclick=addPersonToNode>Ajouter la personne</button>
-                </div>
+                </EditForm>
             }
             else
             {
-                <select style="width: 300px" @onchange=@personRoleChanged>
-                    @foreach (Role role in getAllowedRoles())
-                    {
-                        <option value="@role.RoleId">@role.RoleCode - @role.RoleName</option>
-                    }
-                </select>
-
-                <button class="btn btn-primary" @onclick=@showAddPerson>Ajouter le role</button>
+                <div>
+                    <ul>
+                        @foreach (NodePerson persone in nodeToCreate.Persons)
+                        {
+                            <li>@persone.PersonId / @persone.RoleId : @persone.Nom</li>
+                        }
+                    </ul>
+                </div>
+                @if (allowedRoles.Any())
+                {
+                    <button class="btn btn-primary" @onclick=@showAddPerson>Ajouter le role</button>
+                }
+                
             }
         </div>
+
+        @if (!string.IsNullOrWhiteSpace(nodeToCreate.Code) &&
+             !string.IsNullOrWhiteSpace(nodeToCreate.Name) &&
+             allowedRoles.Count == 0)
+        {
+            <button type="button" @onclick="saveNode">enregister le noeud</button>
+            
+        }
 
         <div style="margin-bottom: 100px"></div>
 

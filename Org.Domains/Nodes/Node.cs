@@ -13,8 +13,8 @@ namespace Org.Domains.Nodes
         public Guid TypeId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
-        public List<NodePerson> Persons { get; set; }
-        public List<Node> SubNodes { get; set; }
+        public List<NodePerson> Persons { get; set; } = new List<NodePerson>();
+        public List<Node> SubNodes { get; set; } = new List<Node>();
 
         public static Node Create(Guid typeId)
         {

@@ -31,5 +31,10 @@ namespace Org.Impl
         {
             await nodeStorage.AddPersonToNode(nodeId, person);
         }
+
+        public async Task AddSubNodeToNode(Guid nodeId, Node subnode)
+        {
+            await nodeStorage.AddSubNodeToNode(nodeId, subnode);
+        }
     }
 }

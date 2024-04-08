@@ -7,4 +7,5 @@ public interface INodeService
     Task CreateNode(Node node);
 
     Task AddPersonToNode(Guid nodeId, NodePerson person);
+    Task AddSubNodeToNode(Guid nodeId, Node subnode);
 }

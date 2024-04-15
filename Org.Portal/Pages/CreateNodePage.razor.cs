@@ -14,6 +14,7 @@ namespace Org.Portal.Pages
 
         private List<NodeType> nodeTypes;
         private List<Role> roles;
+        private List<NodeChild> SubNodes;
 
         private NodeType selectedType;
 
@@ -123,6 +124,49 @@ namespace Org.Portal.Pages
             return result;
         }
 
+        private Node subNodeToCreate;
+
+        private bool addSubNodeVisible = false;
+
+        private void showAddSubNode()
+        {
+            AllowedSubNodes?.Clear();
+            subNodeToCreate = new Node();
+            AllowedSubNodes = getAllowedSubNodes();
+            addSubNodeVisible = true;
+        }
+        private void addSubNodeToNode()
+        {
+            if (subNodeToCreate.NodeId == Guid.Empty ||
+            string.IsNullOrWhiteSpace(subNodeToCreate.Name))
+            {
+                addSubNodeVisible = false;
+            }
+            else
+            {
+                nodeToCreate.SubNodes.Add(subNodeToCreate);
+                AllowedSubNodes = getAllowedSubNodes();
+                addSubNodeVisible = false;
+            }
+
+        }
+        private List<NodeChild> AllowedSubNodes;
+        private List<NodeChild> getAllowedSubNodes()
+        {
+            /**/
+            List<NodeChild> result = new List<NodeChild>();
+            /**/
+            foreach (NodeChild subnode in selectedType.SubNodes)
+            {
+                int maxRoles = subnode.MaxValue;
+                if (nodeToCreate.SubNodes.Count(s => s.NodeId == subnode.NodeTypeId) < maxRoles || maxRoles == 0)
+                {
+                    result.Add(SubNodes.FirstOrDefault(s => s.NodeTypeId == subnode.NodeTypeId));
+                }
+            }
+
+            return result;
+        }
         private async Task saveNode()
         {
             await nodeService.CreateNode(nodeToCreate);

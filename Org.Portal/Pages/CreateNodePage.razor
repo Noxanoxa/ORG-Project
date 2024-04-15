@@ -97,55 +97,28 @@
             }
         </div>
 
-@*         <h3 class="margin-button">SubNodes</h3>
+        <h3 class="margin-button">SubNodes</h3>
         <div class="d-flex">
-            
-            @if (addPersonVisible)
-            {
-                <EditForm Model="nodeToCreate" OnValidSubmit="addSubNodeToNode">
+  
+                <EditForm Model="subNodeToCreate" OnValidSubmit="addSubNodeToNode">
                     <DataAnnotationsValidator/>
                     <ValidationSummary/>
-                    <div class="d-flex flex-column" style="width: 600px">
-                        <select style="width: 300px" @bind=@nodeToCreate.RoleId>
-                            <option selected="selected">--------</option>
-                            @foreach (Node subnodes in allowedSubNodes)
-                            {
-                                <option value="@node.NodeId">@node.NodeCode - @node.NodeName</option>
-                            }
-                        </select>
+
                         <div class="form-group">
-                            <label>Node Id</label>
-                            <input class="form-control" @bind=@nodeToCreate.PersonId readonly="readonly"/>
+                            <label>SubNode Id</label>
+                            <input class="form-control" @bind=@subNodeToCreate.NodeId readonly="readonly"/>
                         </div>
 
                         <div class="form-group">
                             <label>Name</label>
-                            <input class="form-control" @bind=@nodeToCreate.Nome/>
+                            <input class="form-control" @bind=@subNodeToCreate.Name/>
                         </div>
-                        <button type="submit">Ajouter la personne</button>
-                    </div>
+                        <button type="submit">Ajouter node</button>
+              
                 </EditForm>
-            }
-            else
-            {
-                <div>
-                    <ul>
-                        @foreach (NodePerson persone in nodeToCreate.Persons)
-                        {
-                            <li>@persone.PersonId / @persone.RoleId : @persone.Nom</li>
-                        }
-                    </ul>
-                </div>
-                @if (allowedRoles.Any())
-                {
-                    <button class="btn btn-primary" @onclick=@showAddPerson>Ajouter le role</button>
-                }
                 
-            }
+            
         </div>
-
- *@
-
 
 
         @if (!string.IsNullOrWhiteSpace(nodeToCreate.Code) &&

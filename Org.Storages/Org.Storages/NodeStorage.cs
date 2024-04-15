@@ -54,13 +54,13 @@ namespace Org.Storages
             return insertedRows != 0;
         }
 
-        public async ValueTask<bool> AddSubNodeToNode(Guid nodeId, Node subnode)
+        public async ValueTask<bool> AddSubNodeToNode(Guid nodeId, Node subNode)
         {
             await using var connection = new SqlConnection(connectionString);
             SqlCommand cmd = new(insertSubNodeCommand, connection);
 
-            cmd.Parameters.AddWithValue("@aNodeIdParent", nodeId);
-            cmd.Parameters.AddWithValue("@aPersonIdChild", subnode.NodeId);
+            cmd.Parameters.AddWithValue("@aNodeId", nodeId);
+            cmd.Parameters.AddWithValue("@aSubNodeId", subNode.NodeId);
 
             await connection.OpenAsync();
             int insertedRows = (int)await cmd.ExecuteNonQueryAsync();

@@ -28,10 +28,13 @@
     private List<ErrorCode> errors;
 
     private List<Role> roles = new List<Role>();
+//    private List<Node> nodes = new List<Node>();
+
 
     protected override async Task OnInitializedAsync()
     {
         roles = await RoleService.GetRoles();
+//        nodes = await NodeService.GetNodes();
     }
 
     private void addRoleToList(Role role)

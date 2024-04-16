@@ -58,7 +58,7 @@ public class RoleStorage
 
         return roles;
     }
-
+    
     private const string selectRoleByIdQuery = "SELECT * FROM ROLES WHERE RoleId = @aRoleId";
 
     public async ValueTask<Role?> SelectRoleById(Guid roleId)

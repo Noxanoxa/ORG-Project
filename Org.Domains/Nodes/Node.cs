@@ -28,5 +28,16 @@ namespace Org.Domains.Nodes
                 SubNodes = new List<Node>()
             };
         }
+
+        public static Node Create(Guid guid1, Guid guid2, string v1, string v2) => new Node()
+        {
+            NodeId = guid1,
+            TypeId = guid2,
+            Code = v1,
+            Name = v2,
+            Persons = new List<NodePerson>(),
+            SubNodes = new List<Node>()
+        };
+       
     }
 }

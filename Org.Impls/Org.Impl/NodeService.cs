@@ -36,5 +36,7 @@ namespace Org.Impl
         {
             await nodeStorage.AddSubNodeToNode(nodeId, subnode);
         }
+
+        public async Task<List<Node>> GetNodes() => await nodeStorage.SelectSubNodes();
     }
 }

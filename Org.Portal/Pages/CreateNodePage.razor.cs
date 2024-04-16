@@ -14,6 +14,7 @@ namespace Org.Portal.Pages
 
         private List<NodeType> nodeTypes;
         private List<Role> roles;
+        private List<Node> nodes;
 
         private NodeType selectedType;
 
@@ -25,6 +26,7 @@ namespace Org.Portal.Pages
         {
             nodeTypes = await orgTypeService.GetNodeTypes();
             roles = await roleService.GetRoles();
+            nodes = await nodeService.GetNodes();
         }
 
         private string nodeName(Guid id)
@@ -60,17 +62,22 @@ namespace Org.Portal.Pages
         }
 
         private Node nodeToCreate;
+        private Node subnodeToCreate;
+
 
         private void showCreatingNodeForm()
         {
             creatingNode = true;
             nodeToCreate = Node.Create(selectedId);
             allowedRoles = getAllowedRoles();
+            allowedNodes  = getAllowedNodes();
         }
 
         private NodePerson personToCreate;
         private Guid selectedRole;
+        private Guid selectedNode;
 
+        //*****************************
         private void personRoleChanged(ChangeEventArgs obj)
         {
             if (obj is not null)
@@ -79,7 +86,10 @@ namespace Org.Portal.Pages
             }
         }
 
+        //***************************** 
+
         private bool addPersonVisible = false;
+        private bool addSubNodeVisible = false;
 
         private void showAddPerson()
         {
@@ -88,6 +98,14 @@ namespace Org.Portal.Pages
             personToCreate.RoleId = selectedRole;
             allowedRoles = getAllowedRoles();
             addPersonVisible = true;
+        }
+        private void showAddSubNode()
+        {
+            allowedNodes?.Clear();
+            subnodeToCreate = new Node();
+            subnodeToCreate.NodeId = selectedNode;
+            allowedNodes = getAllowedNodes();
+            addSubNodeVisible = true;
         }
 
         private void addPersonToNode()
@@ -102,11 +120,29 @@ namespace Org.Portal.Pages
             {
                 nodeToCreate.Persons.Add(personToCreate);
                 allowedRoles = getAllowedRoles();
+                
                 addPersonVisible = false;
+            }
+        }
+        private void addSubNodeToNode()
+        {
+            if (subnodeToCreate.NodeId == Guid.Empty ||
+                string.IsNullOrWhiteSpace(subnodeToCreate.Code) ||
+                string.IsNullOrWhiteSpace(subnodeToCreate.Name))
+            {
+                addSubNodeVisible = false;
+            }
+            else
+            {
+                nodeToCreate.SubNodes.Add(subnodeToCreate);
+                allowedNodes = getAllowedNodes();
+                
+                addSubNodeVisible = false;
             }
         }
 
         private List<Role> allowedRoles;
+        private List<Node> allowedNodes;
 
         private List<Role> getAllowedRoles()
         {
@@ -123,12 +159,33 @@ namespace Org.Portal.Pages
             return result;
         }
 
+
+                private List<Node> getAllowedNodes()
+        {
+            List<Node> result = new List<Node>();
+            foreach (NodeChild node in selectedType.SubNodes)
+            {
+                int maxNodes = node.MaxValue;
+                if (nodeToCreate.SubNodes.Count(p => p.NodeId == node.NodeTypeId) < maxNodes || maxNodes == 0)
+                {
+                    result.Add(nodes.FirstOrDefault(n => n.TypeId == node.NodeTypeId));
+                    
+                }
+            }
+
+            return result;
+        }
+
         private async Task saveNode()
         {
             await nodeService.CreateNode(nodeToCreate);
             foreach (NodePerson person in nodeToCreate.Persons)
             {
                 await nodeService.AddPersonToNode(nodeToCreate.NodeId, person);
+            }
+            foreach (Node subnode in nodeToCreate.SubNodes)
+            {
+                await nodeService.AddSubNodeToNode(nodeToCreate.NodeId, subnode);
             }
         }
 

@@ -110,9 +110,9 @@
 
             @if (addSubNodeVisible)
             {
-                <div class="d-flex flex-column" style="width: 600px">
+@*                 <div class="d-flex flex-column" style="width: 600px">
 
-                    <select style="width: 300px" @* @bind=@subnodeToCreate.NodeId *@>
+                    <select style="width: 300px" *@ @* @bind=@subnodeToCreate.NodeId *@@* >
                         <option selected="selected">--------</option>
                         @foreach (Node node in allowedNodes)
                         {
@@ -122,15 +122,26 @@
 
 
 
-                </div>
+                </div> *@
 
-@*               
-    <EditForm Model="subnodeToCreate" OnValidSubmit="addSubNodeToNode">
+               
+
+            
+                <EditForm Model="subnodeToCreate" OnValidSubmit="addSubNodeToNode">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-
+                    <div class="d-flex flex-column" style="width: 600px">
+                        <select style="width: 300px" @bind="subnodeToCreate.NodeId">
+                            <option selected="selected">--------</option>
+                            @foreach (Node node in allowedNodes)
+                            {
+                                <option value="@node.NodeId">@node.Code - @node.Name</option>
+                            }
+                        </select>
+                        <button type="submit">submit</button>
+                    </div>
                 </EditForm>
-                *@
+
 
             }
             else
@@ -192,7 +203,8 @@
 
         @if (!string.IsNullOrWhiteSpace(nodeToCreate.Code) &&
              !string.IsNullOrWhiteSpace(nodeToCreate.Name) &&
-             allowedRoles.Count == 0)
+             allowedRoles.Count == 0 &&
+             allowedNodes.Count == 0 )
         {
             <button type="button" @onclick="saveNode">enregister le noeud</button>
             

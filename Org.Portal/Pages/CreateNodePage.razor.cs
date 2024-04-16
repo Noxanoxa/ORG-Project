@@ -126,19 +126,19 @@ namespace Org.Portal.Pages
         }
         private void addSubNodeToNode()
         {
-            if (subnodeToCreate.NodeId == Guid.Empty ||
+/*            if (subnodeToCreate.NodeId == Guid.Empty ||
                 string.IsNullOrWhiteSpace(subnodeToCreate.Code) ||
                 string.IsNullOrWhiteSpace(subnodeToCreate.Name))
             {
                 addSubNodeVisible = false;
             }
             else
-            {
+            {*/
                 nodeToCreate.SubNodes.Add(subnodeToCreate);
                 allowedNodes = getAllowedNodes();
                 
                 addSubNodeVisible = false;
-            }
+            /*}*/
         }
 
         private List<Role> allowedRoles;
@@ -166,11 +166,12 @@ namespace Org.Portal.Pages
             foreach (NodeChild node in selectedType.SubNodes)
             {
                 int maxNodes = node.MaxValue;
-                if (nodeToCreate.SubNodes.Count(p => p.NodeId == node.NodeTypeId) < maxNodes || maxNodes == 0)
+                if (nodeToCreate.SubNodes.Count(p => p.NodeId == node.NodeTypeId) >= maxNodes && maxNodes != 0)
                 {
-                    result.Add(nodes.FirstOrDefault(n => n.TypeId == node.NodeTypeId));
-                    
+                    continue;
                 }
+                else
+                result.Add(nodes.FirstOrDefault(n => n.TypeId == node.NodeTypeId));
             }
 
             return result;

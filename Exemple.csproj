@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Create_New_Node\CreateNode.cshtml" />
+    <Content Remove="Pages\Shared\Login.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Shared\Login.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Create_New_Node\CreateNode.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Shared\Login.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Create_New_Node\CreateNode.cshtml" />
+    <None Include="Pages\Login\Login.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Create_New_Node\CreateNode.cshtml" />
+  </ItemGroup>
+
+</Project>

@@ -8,7 +8,7 @@ table, th, td {
   text-align: center;
 }
 </style>
-
+@* 
 <div class="form-group">
     <div class="d-flex">
         <label>Code : </label>
@@ -28,6 +28,7 @@ table, th, td {
             <li>@role.RoleId (Min : @role.MinValue , Max = @role.MaxValue)</li>
         }
     </ul>
+
     @if (addRoleFormVisible)
     {
         <div>
@@ -66,3 +67,58 @@ table, th, td {
         <button type="button" class="btn btn-success" @onclick=@createNode>Créer le type de Noeud</button>
     </div>
 </div>
+ *@
+
+<EditForm Model="@nodeType">
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Code :</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Your Code Node" @bind=@nodeType.Code>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Name :</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Your Code Node" @bind=@nodeType.Name>
+    </div>
+
+
+    <h2 style="margin-top: 60px">Roles List : </h2>
+
+    <ul class="list-unstyled">
+        @foreach(NodeRole role in nodeRoles)
+        {
+            <li>@role.RoleId (Min : @role.MinValue , Max = @role.MaxValue)</li>
+        }
+        </ul>
+
+        @if (addRoleFormVisible)
+        {
+            <div>
+                <NodeRoleEdit OnRoleAdded=@addNewRole/>
+            </div>
+        }
+        else
+        {
+            <button class="btn btn-sm btn-primary" @onclick=@showAddroleForm> Add Role</button>
+        }
+
+    <h2 style="margin-top: 60px">SubNodes List:</h2>
+    <hr/>
+    <ul class="list-unstyled">
+        @foreach(NodeChild child in children)
+    {
+        <li>@child.NodeTypeId.ToString() (Min : @child.MinValue , Max = @child.MaxValue)</li>
+    }
+    </ul>
+    @if (addChildFormVisible)
+    {
+        <div>
+            <SubNodeEdit OnChildAdded=@addNewChild />
+        </div>
+    }
+    else
+    {
+        <button class="btn btn-sm btn-primary" @onclick=@showAddChildForm> Add Child</button>
+    }
+    
+
+</EditForm>

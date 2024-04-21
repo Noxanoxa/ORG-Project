@@ -1,19 +1,23 @@
 ﻿@using Org.Domains.Persons
 @using Org.Apps
 
-<select class="form-control" @bind="nodeRole.RoleId">
-    @foreach (Role role in roles)
-    {
-        <option value=@role.RoleId>@role.RoleCode-@role.RoleName</option>
-    }
-</select>
-<div class="d-flex">
-    <label> min value</label>
-    <input type="number" class="form-control" @bind=@minValue/>
+
+<div class="form-group">
+    <label for="exampleFormControlSelect1">Example select</label>
+    <select class="form-control" id="exampleFormControlSelect1" @bind="nodeRole.RoleId">
+        @foreach (Role role in roles)
+        {
+            <option value=@role.RoleId>@role.RoleCode-@role.RoleName</option>
+        }
+    </select>
 </div>
-<div class="d-flex">
-    <label> max value</label>
-    <input type="number" class="form-control" @bind=@maxValue />
+<div class="form-group">
+    <label for="exampleFormControlInput1">min value</label>
+    <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="Min Value" @bind=@minValue>
+</div>
+<div class="form-group">
+    <label for="exampleFormControlInput1">max value</label>
+    <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="Max Value" @bind=@maxValue>
 </div>
 
 <button class="btn btn-sm btn-primary" @onclick=@roleAdded>Add Role</button>
